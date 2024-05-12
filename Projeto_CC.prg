@@ -1,10 +1,10 @@
 REQUEST HB_LANG_PT
 REQUEST HB_CODEPAGE_UTF8
 
-PROCEDURE Main
-LOCAL nOpt, nDep, nSaq, nSaldo:=0
-    hb_langSelect("PT")
+Function menu()
+LOCAL nOpt:= 0
     hb_cdpSelect("UTF8")
+    hb_langSelect("PT")
     SET DATE BRITISH
     SET CENTURY ON
     cls
@@ -13,39 +13,38 @@ LOCAL nOpt, nDep, nSaq, nSaldo:=0
     ?"Hoje é", CDoW(date()),",", date()
     ?"Agora são:", time()
     
-    @5, 5 to 10, 19 DOUBLE
-    @6, 6 PROMPT "1 - Saque   "
-    @7, 6 PROMPT "2 - Depósito"
-    @8, 6 PROMPT "3 - Saldo   "
-    @9, 6 PROMPT "4 - Sair    "
-    ?""
+    
+    
+        @5, 5 to 10, 24 DOUBLE
+        @6, 6 PROMPT "1 - Abrir Conta   "
+        @7, 6 PROMPT "2 - Depósito      "
+        @8, 6 PROMPT "3 - Saque         "
+        @9, 6 PROMPT "4 - Sair          "
+        ?""
+    
 
     MENU TO nOpt
-    do case
-        case nOpt == 1
+        do case
+            case nOpt == 1 //Chama o método criar conta no BD, e gera um registro em branco
             
-            ?"Saldo atual: ", Str(nsaldo, 20, 2)
-            INPUT "Digite o valor do saque: " to nSaq
-            if nSaldo >= nSaq
-            ?"Você sacou ", nSaq, " e seu saldo atualizado é: ", Str(nsaldo - nSaq, 20, 2)
-            else
-            ?"Você não tem saldo suficiente. Seu saldo atual é: ", Str(nsaldo, 20, 2)
-            endif
-
-        case nOpt == 2
+                criarCC()
+                USE Conta1
+                APPEND BLANK
             
-            ?"Saldo atual: ", Str(nsaldo, 20, 2)
-            INPUT "Digite o valor do depósito: " to nDep
-            ?"Seu saldo atualizado é de: ", Str(nsaldo + nDep, 20, 2)
-             
-        case nOpt == 3
-            ?"Seu saldo é: ", Str(nsaldo, 20, 2)
+            case nOpt == 2 //Chama o método deposito para adicionar valor ao saldo
+            
+                deposito()
+            
+            case nOpt == 3 //Chama o método saque para subtrair valor do saldo
+            
+                saque()
+            case nOpt == 4
+                cls
+                ?"Encerrando a sessão..."
+                ?"Sessão encerrada. Obrigado por escolher os nossos serviços!"
 
-        case nOpt == 4
-            ?"Encerrando a sessão..."
-            ?"Sessão encerrada. Obrigado por escolher os nossos serviços!"
-
-        otherwise
-            ?".."              
-    endcase
+            otherwise
+                ?".."              
+        endcase
+    
 RETURN  

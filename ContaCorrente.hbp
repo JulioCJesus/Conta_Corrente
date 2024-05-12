@@ -1,0 +1,27 @@
+-oCC
+
+-inc
+-workdir=objs
+
+# Libs
+-lhbodbc
+-lodbc32
+-lhbwin
+-lxhb
+-lhbtip
+-lhbct
+-lhbmisc
+-lhbziparc
+-lminizip
+-lhbmzip
+-lhbtip
+-lhbnf
+-lhbxpp
+
+# Principal
+Projeto_CC.prg
+
+# Objetos / Classes
+deposito.prg
+saque.prg
+BD.prg
